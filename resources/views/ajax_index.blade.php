@@ -8,23 +8,24 @@
   <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>  
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
- </head>
+
+</head>
  <body>
   <div class="container">    
      <br />
-     <h3 align="center">Laravel 5.8 Ajax Crud Tutorial - Delete or Remove Data</h3>
+     <h3 align="center">Laravel 5.8 Ajax Crud Test</h3>
      <br />
      <div align="right">
-      <button type="button" name="create_record" id="create_record" class="btn btn-success btn-sm">Create Record</button>
+      <button type="button" name="create_record" id="create_record" class="btn btn-outline-info btn-rounded btn-success">Create Record</button>
      </div>
      <br />
    <div class="table-responsive">
     <table class="table table-bordered table-striped" id="user_table">
            <thead>
             <tr>
-                <th width="10%">Image</th>
-                <th width="35%">First Name</th>
-                <th width="35%">Last Name</th>
+                <th width="30%">Image</th>
+                <th width="25%">First Name</th>
+                <th width="25%">Last Name</th>
                 <th width="30%">Action</th>
             </tr>
         </thead>
@@ -60,7 +61,7 @@
          </div>
         </div>
         <div class="form-group">
-         <label class="control-label col-md-4">Select Profile Image : </label>
+         <label class="custom-file-input col-md-4">Select Profile Image : </label>
          <div class="col-md-8">
           <input type="file" name="image" id="image" />
           <span id="store_image"></span>
@@ -101,6 +102,7 @@
 $(document).ready(function(){
 
  $('#user_table').DataTable({
+     // isi index/data pada table
   processing: true,
   serverSide: true,
   ajax:{
@@ -108,22 +110,26 @@ $(document).ready(function(){
   },
   columns:[
    {
+       // gambar
     data: 'image',
     name: 'image',
     render: function(data, type, full, meta){
-     return "<img src={{ URL::to('/') }}/images/" + data + " width='70' class='img-thumbnail' />";
+     return "<img src={{ URL::to('/') }}/images/" + data + " width='190' class='img-thumbnail' />";
     },
     orderable: false
    },
    {
+       // nama awal
     data: 'first_name',
     name: 'first_name'
    },
    {
+       // nama akhir
     data: 'last_name',
     name: 'last_name'
    },
    {
+       // button aksi
     data: 'action',
     name: 'action',
     orderable: false
@@ -131,14 +137,14 @@ $(document).ready(function(){
   ]
  });
 
- $('#create_record').click(function(){
+ $('#create_record').click(function(){  //ketika butto create record di klik
   $('.modal-title').text("Add New Record");
      $('#action_button').val("Add");
      $('#action').val("Add");
      $('#formModal').modal('show');
  });
 
- $('#sample_form').on('submit', function(event){
+ $('#sample_form').on('submit', function(event){ //ketika button add di klik
   event.preventDefault();
   if($('#action').val() == 'Add')
   {
@@ -176,6 +182,7 @@ $(document).ready(function(){
      if($('#action').val() == "Edit")
      {
       $.ajax({
+          // ajax untuk proses edit
        url:"{{ route('ajax-crud.update') }}",
        method:"POST",
        data:new FormData(this),
@@ -208,7 +215,7 @@ $(document).ready(function(){
   }
  });
 
- $(document).on('click', '.edit', function(){
+ $(document).on('click', '.edit', function(){ //modal edit
   var id = $(this).attr('id');
   $('#form_result').html('');
   $.ajax({
@@ -230,9 +237,9 @@ $(document).ready(function(){
 
  var user_id;
 
- $(document).on('click', '.delete', function(){
+ $(document).on('click', '.delete', function(){ //button delete di klik
   user_id = $(this).attr('id');
-  $('#confirmModal').modal('show');
+  $('#confirmModal').modal('show'); // masuk ke modal konfirmasi
  });
 
  $('#ok_button').click(function(){
